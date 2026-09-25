@@ -1,0 +1,5 @@
+tag,dataset,model,lambda_cal,lora_rank,dice,ece,crc_threshold,test_fnr,region_size
+kvasir_rank2,kvasir,sam2,0.1,2,0.9076,0.0147,0.6368,0.0914,0.1533
+kvasir_rank4,kvasir,sam2,0.1,4,0.9114,0.0159,0.7214,0.0934,0.1516
+kvasir_rank8,kvasir,sam2,0.1,8,0.9068,0.0181,0.7363,0.1068,0.1454
+kvasir_rank16,kvasir,sam2,0.1,16,0.9067,0.0153,0.6716,0.0965,0.1496

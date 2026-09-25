@@ -1,0 +1,17 @@
+{
+  "dataset": "kvasir",
+  "model": "medsam2",
+  "run": "medsam2",
+  "seed": 42,
+  "n_test": 150,
+  "dice": 0.9118,
+  "iou": 0.8552,
+  "ece": 0.018,
+  "ace": 0.1125,
+  "alpha": 0.1,
+  "crc_threshold": 0.6119,
+  "test_fnr": 0.0783,
+  "region_size": 0.1565,
+  "params_M": 27.78,
+  "trainable_M": 0.565
+}

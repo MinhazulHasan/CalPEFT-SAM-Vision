@@ -1,0 +1,17 @@
+{
+  "dataset": "busi",
+  "model": "dinov2s",
+  "run": "dinov2s",
+  "seed": 42,
+  "n_test": 117,
+  "dice": 0.7863,
+  "iou": 0.7133,
+  "ece": 0.0228,
+  "ace": 0.1417,
+  "alpha": 0.1,
+  "crc_threshold": 0.1244,
+  "test_fnr": 0.1133,
+  "region_size": 0.0896,
+  "params_M": 22.62,
+  "trainable_M": 0.566
+}

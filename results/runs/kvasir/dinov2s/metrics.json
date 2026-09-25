@@ -1,0 +1,17 @@
+{
+  "dataset": "kvasir",
+  "model": "dinov2s",
+  "run": "dinov2s",
+  "seed": 42,
+  "n_test": 150,
+  "dice": 0.9044,
+  "iou": 0.8555,
+  "ece": 0.0213,
+  "ace": 0.126,
+  "alpha": 0.1,
+  "crc_threshold": 0.8358,
+  "test_fnr": 0.102,
+  "region_size": 0.1485,
+  "params_M": 22.62,
+  "trainable_M": 0.566
+}

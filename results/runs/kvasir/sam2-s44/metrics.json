@@ -1,0 +1,17 @@
+{
+  "dataset": "kvasir",
+  "model": "sam2",
+  "run": "sam2-s44",
+  "seed": 44,
+  "n_test": 150,
+  "dice": 0.9091,
+  "iou": 0.8519,
+  "ece": 0.0164,
+  "ace": 0.1139,
+  "alpha": 0.1,
+  "crc_threshold": 0.7064,
+  "test_fnr": 0.0863,
+  "region_size": 0.1542,
+  "params_M": 27.78,
+  "trainable_M": 0.565
+}

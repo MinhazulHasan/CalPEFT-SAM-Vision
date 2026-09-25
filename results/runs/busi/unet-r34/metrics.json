@@ -1,0 +1,17 @@
+{
+  "dataset": "busi",
+  "model": "unet-r34",
+  "run": "unet-r34",
+  "seed": 42,
+  "n_test": 117,
+  "dice": 0.7578,
+  "iou": 0.6891,
+  "ece": 0.0237,
+  "ace": 0.1678,
+  "alpha": 0.1,
+  "crc_threshold": 0.0597,
+  "test_fnr": 0.142,
+  "region_size": 0.0925,
+  "params_M": 24.44,
+  "trainable_M": 24.436
+}

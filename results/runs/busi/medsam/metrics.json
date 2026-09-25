@@ -1,0 +1,17 @@
+{
+  "dataset": "busi",
+  "model": "medsam",
+  "run": "medsam",
+  "seed": 42,
+  "n_test": 117,
+  "dice": 0.7334,
+  "iou": 0.6671,
+  "ece": 0.0279,
+  "ace": 0.1542,
+  "alpha": 0.1,
+  "crc_threshold": 0.0846,
+  "test_fnr": 0.1634,
+  "region_size": 0.0849,
+  "params_M": 90.51,
+  "trainable_M": 0.837
+}

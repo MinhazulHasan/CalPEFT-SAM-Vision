@@ -1,0 +1,17 @@
+{
+  "dataset": "kvasir",
+  "model": "unet-r34",
+  "run": "unet-r34-s43",
+  "seed": 43,
+  "n_test": 150,
+  "dice": 0.9059,
+  "iou": 0.8469,
+  "ece": 0.016,
+  "ace": 0.1148,
+  "alpha": 0.1,
+  "crc_threshold": 0.5174,
+  "test_fnr": 0.0868,
+  "region_size": 0.1581,
+  "params_M": 24.44,
+  "trainable_M": 24.436
+}

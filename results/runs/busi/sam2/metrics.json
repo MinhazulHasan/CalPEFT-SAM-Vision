@@ -1,0 +1,17 @@
+{
+  "dataset": "busi",
+  "model": "sam2",
+  "run": "sam2",
+  "seed": 42,
+  "n_test": 117,
+  "dice": 0.7654,
+  "iou": 0.6982,
+  "ece": 0.0223,
+  "ace": 0.1156,
+  "alpha": 0.1,
+  "crc_threshold": 0.0199,
+  "test_fnr": 0.1127,
+  "region_size": 0.1082,
+  "params_M": 27.78,
+  "trainable_M": 0.565
+}

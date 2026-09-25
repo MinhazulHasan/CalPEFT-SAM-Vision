@@ -1,0 +1,17 @@
+{
+  "dataset": "busi",
+  "model": "unet",
+  "run": "unet",
+  "seed": 42,
+  "n_test": 117,
+  "dice": 0.5729,
+  "iou": 0.4876,
+  "ece": 0.026,
+  "ace": 0.1291,
+  "alpha": 0.1,
+  "crc_threshold": 0.0099,
+  "test_fnr": 0.0861,
+  "region_size": 0.3111,
+  "params_M": 1.93,
+  "trainable_M": 1.928
+}
