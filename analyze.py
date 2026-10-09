@@ -103,7 +103,7 @@ def main_comparison(runs, crc):
             row = {"dataset": ds, "model": m, "name": MODELS[m]["name"], "n_seeds": len(g)}
             for col, name in [("dice", "dice"), ("iou", "iou"), ("ece", "ece"), ("ace", "ace"), ("roi_ece", "roi_ece"),
                               ("fnr_mean", "crc_fnr"), ("region_mean", "crc_region")]:
-                if col in g.columns:
+                if col in g.columns and g[col].notna().all():
                     row[f"{name}_mean"], row[f"{name}_std"] = g[col].mean(), g[col].std(ddof=1)
             summary.append(row)
         if len(seeds) < 2:
@@ -126,8 +126,9 @@ def main_comparison(runs, crc):
 
 
 def ablation(runs, crc):
-    names = {"sam2": "lambda_cal 0.1, rank 8", "sam2-nocal": "lambda_cal 0.0, rank 8", "sam2-r2": "rank 2",
-             "sam2-r4": "rank 4", "sam2-r16": "rank 16"}
+    names = {"sam2-nocal": "lambda_cal 0.0, rank 8", "sam2": "lambda_cal 0.1, rank 8", "sam2-cal05": "lambda_cal 0.5, rank 8",
+             "sam2-cal10": "lambda_cal 1.0, rank 8", "sam2-r2": "lambda_cal 0.1, rank 2", "sam2-r4": "lambda_cal 0.1, rank 4",
+             "sam2-r16": "lambda_cal 0.1, rank 16"}
     g = runs[(runs.dataset == "kvasir") & runs.run.isin(list(names))].merge(
         crc[crc.dataset == "kvasir"][["run", "fnr_mean", "region_mean"]], on="run", how="left")
     g = g.sort_values("run", key=lambda col: col.map(list(names).index))

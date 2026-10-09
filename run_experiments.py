@@ -12,7 +12,8 @@ DATASETS = ["kvasir", "busi"]
 EXPERIMENTS = {
     "main": [(ds, dict(model=m)) for ds in DATASETS for m in ("unet", "unet-r34", "sam2")],
     "ablation": [("kvasir", dict(model="sam2", lambda_cal=0.0, tag="-nocal"))]
-                + [("kvasir", dict(model="sam2", lora_rank=r, tag=f"-r{r}")) for r in (2, 4, 16)],
+                + [("kvasir", dict(model="sam2", lora_rank=r, tag=f"-r{r}")) for r in (2, 4, 16)]
+                + [("kvasir", dict(model="sam2", lambda_cal=lam, tag=tag)) for lam, tag in ((0.5, "-cal05"), (1.0, "-cal10"))],
     "encoders": [(ds, dict(model=m)) for ds in DATASETS for m in ("medsam2", "dinov2s", "sam1", "medsam")],
     "seeds": [(ds, dict(model=m, seed=s, tag=f"-s{s}")) for s in (43, 44) for ds in DATASETS for m in ("unet-r34", "sam2")],
 }

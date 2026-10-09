@@ -175,11 +175,11 @@ python run_experiments.py seeds
 | Group | What it trains | Runs | Time on our GPU |
 |---|---|---|---|
 | `main` | U-Net (from scratch), U-Net ResNet-34 and CalPEFT-SAM on both datasets | 6 | about 2 h |
-| `ablation` | CalPEFT-SAM without the calibration loss, and with LoRA rank 2 / 4 / 16 (Kvasir-SEG) | 4 | about 2 h |
+| `ablation` | CalPEFT-SAM with calibration-loss weight 0 / 0.5 / 1.0 and with LoRA rank 2 / 4 / 16 (Kvasir-SEG) | 6 | about 3 h |
 | `encoders` | the same recipe with other frozen encoders: MedSAM2, DINOv2, SAM, MedSAM (both datasets) | 8 | about 5.5 h |
 | `seeds` | U-Net ResNet-34 and CalPEFT-SAM again with training seeds 43 and 44 (both datasets) | 8 | about 3 h |
 
-`python run_experiments.py all` runs all four groups one after another (about 12 hours).
+`python run_experiments.py all` runs all four groups one after another (about 13 hours).
 
 Good to know:
 - **Runs can be stopped at any time** (close the window or press Ctrl+C). When the same command is run again, finished runs are skipped and the unfinished run starts again from its beginning.
@@ -201,7 +201,7 @@ python benchmark.py
 | `tables/main_statistics.csv` | the same comparison per test image: paired Wilcoxon test, paired t-test, bootstrap 95% CI |
 | `tables/model_comparison.csv` | all 7 models (seed 42) with the paired Wilcoxon test against SAM2 (Holm-corrected) |
 | `tables/crc_validity.csv` | CRC over 1000 random calibration/test re-splits: mean / sd / 95th percentile of the FNR, how often FNR > 0.10, region size |
-| `tables/ablation.csv` | calibration loss on/off and LoRA rank 2 / 4 / 8 / 16, including ROI-ECE |
+| `tables/ablation.csv` | calibration-loss weight 0 / 0.1 / 0.5 / 1.0 and LoRA rank 2 / 4 / 8 / 16, including ROI-ECE |
 | `tables/risk_efficiency.csv` | FNR and region size at the risk levels 0.05, 0.10, 0.15 and 0.20 |
 | `tables/all_runs.csv` | one line per run with all its metrics |
 | `figures/crc_resplit_fnr.png` | distribution of the test FNR over the 1000 re-splits for every model |

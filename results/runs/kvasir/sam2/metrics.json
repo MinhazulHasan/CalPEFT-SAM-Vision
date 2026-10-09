@@ -8,6 +8,7 @@
   "iou": 0.8547,
   "ece": 0.0176,
   "ace": 0.0929,
+  "roi_ece": 0.1226,
   "alpha": 0.1,
   "crc_threshold": 0.6666,
   "test_fnr": 0.0863,
