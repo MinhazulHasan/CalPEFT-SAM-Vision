@@ -2,7 +2,7 @@
 
 **Calibrated, parameter-efficient, conformally-guaranteed medical image segmentation on a single 8 GB GPU**
 
-CalPEFT-SAM segments lesions (polyps, breast tumours) with a frozen SAM2.1 image encoder, small trainable LoRA adapters and a light decoder. It is trained with a calibration loss so that its confidence is meaningful, and it uses Conformal Risk Control (CRC) to pick a threshold with a statistical guarantee: on average the guaranteed region misses at most 10% of the true lesion pixels (FNR ≤ 0.10). Everything runs on one 8 GB laptop GPU.
+CalPEFT-SAM segments lesions (polyps, breast tumours) with a frozen SAM2.1 image encoder, small trainable LoRA adapters and a light decoder. It uses Conformal Risk Control (CRC) to pick a threshold with a statistical guarantee: on average the guaranteed region misses at most 10% of the true lesion pixels (FNR ≤ 0.10). Everything runs on one 8 GB laptop GPU.
 
 This repository contains all the code needed to reproduce the experiments and results of the paper, starting from an empty computer.
 
@@ -32,7 +32,7 @@ CalPEFT-SAM/
 │   ├── config.py           all settings of one run (dataset, model, seed, epochs, ...)
 │   ├── data.py             finding the images, the data split, resizing and augmentation
 │   ├── models.py           U-Net baselines, frozen encoders, LoRA, decoder, pretrained weights
-│   ├── losses.py           BCE + Dice + mL1-ACE calibration loss
+│   ├── losses.py           BCE + Dice + calibration loss
 │   ├── conformal.py        Conformal Risk Control (CRC) and the re-split test
 │   ├── metrics.py          Dice, IoU, ECE, ACE, ROI-ECE, figures
 │   └── engine.py           training, evaluation and saving of one run
@@ -207,7 +207,7 @@ python benchmark.py
 | `figures/crc_resplit_fnr.png` | distribution of the test FNR over the 1000 re-splits for every model |
 | `figures/model_comparison.png` | Dice, ECE and CRC region size of all 7 models on both datasets |
 
-`benchmark.py` writes `outputs/tables/efficiency.csv`: total and trained parameters, peak GPU memory during training and time per training step and per test image (batch size 2, same GPU for every model).
+`benchmark.py` writes `outputs/tables/efficiency.csv`: total and trained parameters, peak GPU memory during training and time per training step and per test image (batch size 2, same GPU for every model). The copy in `results/tables/efficiency.csv` is the run used for Table 1 of the paper; all seven models were timed in one session, because timings on a laptop GPU can change from one session to the next.
 
 ## Step 9 — Where to find everything
 
@@ -272,14 +272,14 @@ All foundation encoders use exactly the same recipe (frozen encoder + LoRA rank 
 | **CalPEFT-SAM:** SAM 2.1 Hiera-T + LoRA | `sam2` | natural images and videos (SA-1B, SA-V) | 0.565 M / 27.78 M | 1e-3 | 2 | 0.9088 | 0.7654 |
 | MedSAM2 Hiera-T + LoRA | `medsam2` | medical images and videos | 0.565 M / 27.78 M | 1e-3 | 2 | 0.9118 | 0.7380 |
 
-DINOv2 uses a learning rate of 1e-4 because its training diverged at 1e-3.
+DINOv2 uses a learning rate of 1e-4 because at 1e-3 it reached a Dice of only 0.558 on Kvasir-SEG and 0.474 on BUSI.
 
 # Method in short
 
 - **Encoder:** the pretrained image encoder is frozen. The 256 × 256 input is resized to 512 × 512 for the encoder (518 × 518 for DINOv2, whose patch size is 14). SAM2 gives features at several scales; for ViT encoders the outputs of blocks 3, 6, 9 and 12 are used.
 - **LoRA:** every attention linear layer (qkv / q / v / kv / proj) gets a trainable low-rank update W x + (α / r) · B A x with rank r = 8 and α = 16. B starts at zero, so training starts from the pretrained encoder.
 - **Decoder:** a small feature-pyramid decoder (128 channels, GroupNorm) that fuses all feature scales and predicts one probability map at 256 × 256.
-- **Loss:** binary cross-entropy + Dice + 0.1 × mL1-ACE, a differentiable calibration loss (Barfoot et al., IEEE TMI 2025).
+- **Loss:** binary cross-entropy + Dice + 0.1 × a differentiable calibration loss inspired by mL1-ACE (Barfoot et al., IEEE TMI 2026), with each bin weighted by its share of pixels. In our ablation, this term had no measurable effect on calibration.
 - **Training:** AdamW, cosine learning-rate schedule, 40 epochs, mixed precision on the GPU.
 - **Conformal Risk Control:** on the calibration images we choose the largest threshold t (from 200 values between 0.99 and 0) with (n / (n + 1)) · FNR_calibration(t) + 1 / (n + 1) ≤ α, where α = 0.10 and FNR is the fraction of lesion pixels that are missed. All pixels with probability ≥ t form the guaranteed region. This guarantees that the expected FNR on new images is at most α (Angelopoulos et al., ICLR 2024).
 - **Evaluation:** Dice and IoU at threshold 0.5 (an empty prediction on an empty mask counts as Dice 1), pixel-level ECE and ACE with 15 bins, ROI-ECE (ECE only inside the true or predicted lesion), and CRC checked over 1000 random re-splits of the calibration + test images.
